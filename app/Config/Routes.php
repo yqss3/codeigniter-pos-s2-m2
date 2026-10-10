@@ -2,23 +2,68 @@
 
 namespace Config;
 
-use CodeIgniter\Config\Services;
+use CodeIgniter\Router\RouteCollection;
 
+/**
+ * @var RouteCollection $routes
+ */
 $routes = Services::routes();
 
-if (is_file(SYSTEMPATH . 'Config/Routes.php')) {
+// Load default CodeIgniter routes.
+if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
     require SYSTEMPATH . 'Config/Routes.php';
 }
 
-$routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('TasksController');
-$routes->setDefaultMethod('index');
-$routes->setTranslateURIDashes(false);
-$routes->set404Override();
-$routes->setAutoRoute(false);
+/*
+|--------------------------------------------------------------------------
+| Public Pages
+|--------------------------------------------------------------------------
+*/
+$routes->get('/', 'PageController::home');
+$routes->get('about', 'PageController::about');
 
-// Tasks for Today Management System
-$routes->get('/', 'TasksController::index');
-$routes->get('tasks', 'TasksController::tasks');
-$routes->get('profile', 'TasksController::profile');
-$routes->get('about', 'TasksController::about');
+/*
+|--------------------------------------------------------------------------
+| Login and Logout
+|--------------------------------------------------------------------------
+*/
+$routes->match(['get', 'post'], 'login', 'AuthController::login');
+$routes->post('logout', 'AuthController::logout');
+
+/*
+|--------------------------------------------------------------------------
+| Protected Pages
+|--------------------------------------------------------------------------
+*/
+$routes->get('profile', 'PageController::profile', [
+    'filter' => 'auth',
+]);
+
+/*
+|--------------------------------------------------------------------------
+| Task Management
+|--------------------------------------------------------------------------
+*/
+$routes->get('tasks', 'TaskController::index', [
+    'filter' => 'auth',
+]);
+
+$routes->get('tasks/new', 'TaskController::create', [
+    'filter' => 'auth',
+]);
+
+$routes->post('tasks', 'TaskController::store', [
+    'filter' => 'auth',
+]);
+
+$routes->get('tasks/edit/(:num)', 'TaskController::edit/$1', [
+    'filter' => 'auth',
+]);
+
+$routes->post('tasks/update/(:num)', 'TaskController::update/$1', [
+    'filter' => 'auth',
+]);
+
+$routes->post('tasks/archive/(:num)', 'TaskController::archive/$1', [
+    'filter' => 'auth',
+]);

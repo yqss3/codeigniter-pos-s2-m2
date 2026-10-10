@@ -3,51 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About the Developer | TaskFlow</title>
+    <title>About | Tasks for Today</title>
     <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
 </head>
 <body>
 
-<header>
-    <h1>TaskFlow</h1>
-    <p>Tasks for Today Management System</p>
-</header>
+<div class="container">
+    <h1>About Tasks for Today</h1>
 
-<nav>
-    <a href="<?= base_url('/') ?>">Home</a>
-    <a href="<?= base_url('tasks') ?>">Task List</a>
-    <a href="<?= base_url('profile') ?>">Profile</a>
-    <a class="active" href="<?= base_url('about') ?>">About</a>
-</nav>
+    <nav>
+        <a href="<?= site_url('/') ?>">Home</a> |
+        <a href="<?= site_url('about') ?>">About</a>
 
-<main>
-    <h2>About the Developer</h2>
-    <p class="subtitle">Information about this project and its developer.</p>
+        <?php if (session()->get('logged_in')): ?>
+            | <a href="<?= site_url('tasks') ?>">Task List</a>
+            | <a href="<?= site_url('profile') ?>">Profile</a>
+        <?php else: ?>
+            | <a href="<?= site_url('login') ?>">Login</a>
+        <?php endif; ?>
+    </nav>
 
-    <div class="card">
-        <h2>Tasks for Today Management System</h2>
+    <h2>Our Purpose</h2>
 
-        <p>
-            This application organizes and displays daily tasks
-            using PHP, CodeIgniter 4, and MySQL.
-        </p>
+    <p>
+        Tasks for Today is a simple task management system that helps
+        users organize their daily activities and keep track of important
+        responsibilities.
+    </p>
 
-        <hr>
+    <h2>Features</h2>
 
-        <p><span class="label">Developer:</span> Ryan Dela Cruz</p>
-        <p><span class="label">Course:</span> IT0049 - Web System Technologies</p>
-        <p><span class="label">Framework:</span> CodeIgniter 4</p>
-        <p><span class="label">Database:</span> MySQL</p>
+    <ul>
+        <li>User login and logout</li>
+        <li>Create, view, and edit tasks</li>
+        <li>Validate required task information</li>
+        <li>Archive tasks without permanently deleting records</li>
+        <li>View tasks scheduled for today</li>
+    </ul>
 
-        <p class="about-accent">
-            Stay organized. Track your tasks. Make progress every day.
-        </p>
-    </div>
-</main>
-
-<footer>
-    Developed by Ryan Dela Cruz
-</footer>
+    <p>
+        This application was developed as part of a CodeIgniter 4
+        laboratory activity.
+    </p>
+</div>
 
 </body>
 </html>

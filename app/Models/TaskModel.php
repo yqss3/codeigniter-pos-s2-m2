@@ -11,25 +11,10 @@ class TaskModel extends Model
 
     protected $allowedFields = [
         'title',
-        'status',
+        'description',
         'task_date',
-        'created_at'
+        'is_archived'
     ];
 
-    public function getTodayTasks()
-    {
-        return $this->where(
-            'task_date',
-            date('Y-m-d')
-        )
-        ->orderBy('id', 'DESC')
-        ->findAll();
-    }
-
-    public function getAllTasks()
-    {
-        return $this->orderBy('task_date', 'DESC')
-                    ->orderBy('id', 'DESC')
-                    ->findAll();
-    }
+    protected $useTimestamps = true;
 }
